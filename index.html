@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GETIN SYSTEM</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      text-align: center;
+    }
+
+    .header {
+      background: #24577f;
+      color: white;
+      padding: 25px 15px;
+      margin: -20px -20px 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      font-size: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.12);
+    }
+
+    h2 {
+      color: #24577f;
+      margin-top: 5px;
+    }
+
+    #reader {
+      width: 100%;
+      margin: 20px auto;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #startBtn {
+      background: #1976d2;
+      color: white;
+    }
+
+    #stopBtn {
+      background: #777;
+      color: white;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f1f1f1;
+      min-height: 60px;
+      word-break: break-word;
+    }
+
+    .success {
+      color: #16803c;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #d93025;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>GETIN SYSTEM</h1>
+    <p>CỔNG OUT</p>
+  </div>
+
+  <div class="container">
+
+    <h2>QUÉT QR XE OUT</h2>
+
+    <div id="reader"></div>
+
+    <button id="startBtn" onclick="startScanner()">
+      📷 MỞ CAMERA
+    </button>
+
+    <button id="stopBtn" onclick="stopScanner()">
+      ⛔ DỪNG CAMERA
+    </button>
+
+    <div id="result">
+      Chưa quét mã
+    </div>
+
+  </div>
+
+<script>
+
+let scanner = null;
+let scanning = false;
+
+function startScanner() {
+
+  if (scanning) {
+    return;
+  }
+
+  document.getElementById("result").innerHTML =
+    "Đang mở camera...";
+
+  scanner = new Html5Qrcode("reader");
+
+  scanner.start(
+    {
+      facingMode: "environment"
+    },
+    {
+      fps: 10,
+      qrbox: {
+        width: 250,
+        height: 250
+      }
+    },
+
+    function(decodedText) {
+
+      console.log("QR:", decodedText);
+
+      document.getElementById("result").innerHTML =
+        "<span class='success'>✅ ĐÃ QUÉT QR</span><br><br>" +
+        "<strong>Mã QR:</strong><br>" +
+        decodedText;
+
+      stopScanner();
+    },
+
+    function(errorMessage) {
+      // Không hiển thị lỗi khi camera đang tìm QR
+    }
+
+  ).then(function() {
+
+    scanning = true;
+
+    document.getElementById("result").innerHTML =
+      "📷 Camera đang hoạt động.<br>" +
+      "Đưa mã QR vào khung để quét.";
+
+  }).catch(function(error) {
+
+    document.getElementById("result").innerHTML =
+      "<span class='error'>" +
+      "❌ Không thể mở camera<br><br>" +
+      error +
+      "</span>";
+
+  });
+}
+
+
+function stopScanner() {
+
+  if (!scanner || !scanning) {
+    return;
+  }
+
+  scanner.stop()
+    .then(function() {
+
+      scanner.clear();
+      scanning = false;
+
+      document.getElementById("result").innerHTML =
+        "Camera đã dừng.";
+
+    })
+    .catch(function(error) {
+
+      console.log(error);
+      scanning = false;
+
+    });
+}
+
+</script>
+
+</body>
+</html>
