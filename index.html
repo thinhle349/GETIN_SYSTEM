@@ -6,6 +6,7 @@
 
   <title>GETIN SYSTEM</title>
 
+  <!-- Thư viện quét QR -->
   <script src="https://unpkg.com/html5-qrcode"></script>
 
   <style>
@@ -31,6 +32,7 @@
     .header h1 {
       margin: 0;
       font-size: 30px;
+      font-weight: bold;
     }
 
     .header p {
@@ -39,22 +41,26 @@
     }
 
     .container {
+      width: 100%;
       max-width: 500px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.12);
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     }
 
     h2 {
       color: #24577f;
-      margin-top: 5px;
+      margin: 5px 0 20px;
+      font-size: 26px;
     }
 
     #reader {
       width: 100%;
       margin: 20px auto;
+      overflow: hidden;
+      border-radius: 10px;
     }
 
     button {
@@ -78,6 +84,10 @@
       color: white;
     }
 
+    button:active {
+      opacity: 0.8;
+    }
+
     #result {
       margin-top: 20px;
       padding: 15px;
@@ -85,6 +95,8 @@
       background: #f1f1f1;
       min-height: 60px;
       word-break: break-word;
+      font-size: 17px;
+      line-height: 1.5;
     }
 
     .success {
@@ -95,6 +107,21 @@
     .error {
       color: #d93025;
       font-weight: bold;
+    }
+
+    .qr-value {
+      margin-top: 8px;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .note {
+      margin-top: 15px;
+      color: #666;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -110,109 +137,175 @@
 
     <h2>QUÉT QR XE OUT</h2>
 
+    <!-- Khu vực camera -->
     <div id="reader"></div>
 
+    <!-- Nút mở camera -->
     <button id="startBtn" onclick="startScanner()">
       📷 MỞ CAMERA
     </button>
 
+    <!-- Nút dừng camera -->
     <button id="stopBtn" onclick="stopScanner()">
       ⛔ DỪNG CAMERA
     </button>
 
+    <!-- Kết quả -->
     <div id="result">
       Chưa quét mã
     </div>
 
+    <div class="note">
+      Đưa mã QR vào giữa khung camera để quét.
+    </div>
+
   </div>
+
 
 <script>
 
-let scanner = null;
-let scanning = false;
+  let scanner = null;
+  let scanning = false;
+  let qrScanned = false;
 
-function startScanner() {
 
-  if (scanning) {
-    return;
-  }
+  // ==============================
+  // MỞ CAMERA
+  // ==============================
 
-  document.getElementById("result").innerHTML =
-    "Đang mở camera...";
+  function startScanner() {
 
-  scanner = new Html5Qrcode("reader");
-
-  scanner.start(
-    {
-      facingMode: "environment"
-    },
-    {
-      fps: 10,
-      qrbox: {
-        width: 250,
-        height: 250
-      }
-    },
-
-    function(decodedText) {
-
-      console.log("QR:", decodedText);
-
-      document.getElementById("result").innerHTML =
-        "<span class='success'>✅ ĐÃ QUÉT QR</span><br><br>" +
-        "<strong>Mã QR:</strong><br>" +
-        decodedText;
-
-      stopScanner();
-    },
-
-    function(errorMessage) {
-      // Không hiển thị lỗi khi camera đang tìm QR
+    if (scanning) {
+      return;
     }
 
-  ).then(function() {
-
-    scanning = true;
+    qrScanned = false;
 
     document.getElementById("result").innerHTML =
-      "📷 Camera đang hoạt động.<br>" +
-      "Đưa mã QR vào khung để quét.";
+      "📷 Đang mở camera...";
 
-  }).catch(function(error) {
-
-    document.getElementById("result").innerHTML =
-      "<span class='error'>" +
-      "❌ Không thể mở camera<br><br>" +
-      error +
-      "</span>";
-
-  });
-}
+    scanner = new Html5Qrcode("reader");
 
 
-function stopScanner() {
+    scanner.start(
 
-  if (!scanner || !scanning) {
-    return;
-  }
+      {
+        facingMode: "environment"
+      },
 
-  scanner.stop()
+      {
+        fps: 10,
+
+        qrbox: {
+          width: 250,
+          height: 250
+        },
+
+        aspectRatio: 1.0
+
+      },
+
+      function(decodedText, decodedResult) {
+
+        // Tránh quét lặp lại cùng một QR
+        if (qrScanned) {
+          return;
+        }
+
+        qrScanned = true;
+
+        console.log("QR đã quét:", decodedText);
+
+
+        // Hiển thị kết quả NGAY LẬP TỨC
+        document.getElementById("result").innerHTML =
+          "<span class='success'>✅ ĐÃ QUÉT QR</span>" +
+          "<div class='qr-value'>" +
+          "Mã QR:<br>" +
+          decodedText +
+          "</div>";
+
+
+        // Dừng camera sau khi đã lưu kết quả
+        stopScanner();
+
+
+      },
+
+      function(errorMessage) {
+
+        // Đây chỉ là lỗi trong lúc camera đang tìm QR.
+        // Không hiển thị để tránh làm rối giao diện.
+
+      }
+
+    )
+
     .then(function() {
 
-      scanner.clear();
-      scanning = false;
+      scanning = true;
 
       document.getElementById("result").innerHTML =
-        "Camera đã dừng.";
+        "📷 Camera đang hoạt động.<br>" +
+        "Đưa mã QR vào khung để quét.";
 
     })
+
     .catch(function(error) {
 
-      console.log(error);
-      scanning = false;
+      console.error("Camera error:", error);
+
+      document.getElementById("result").innerHTML =
+        "<span class='error'>" +
+        "❌ KHÔNG THỂ MỞ CAMERA" +
+        "<br><br>" +
+        error +
+        "</span>";
 
     });
-}
+
+  }
+
+
+  // ==============================
+  // DỪNG CAMERA
+  // ==============================
+
+  function stopScanner() {
+
+    if (!scanner || !scanning) {
+      return;
+    }
+
+
+    scanner.stop()
+
+      .then(function() {
+
+        scanner.clear();
+
+        scanning = false;
+
+        // QUAN TRỌNG:
+        // Không ghi đè kết quả QR ở đây.
+        // Kết quả đã được hiển thị trước khi gọi hàm này.
+
+        console.log("Camera đã dừng.");
+
+      })
+
+      .catch(function(error) {
+
+        console.error(
+          "Không thể dừng camera:",
+          error
+        );
+
+        scanning = false;
+
+      });
+
+  }
 
 </script>
 
