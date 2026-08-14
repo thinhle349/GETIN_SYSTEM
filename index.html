@@ -2,199 +2,381 @@
 <html lang="vi">
 
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta charset="UTF-8">
 
-  <title>GETIN SYSTEM</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <!-- Thư viện quét QR -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
+<title>GETIN SYSTEM</title>
 
-  <style>
+<script src="https://unpkg.com/html5-qrcode"></script>
 
-    * {
-      box-sizing: border-box;
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #f3f5f7;
-      text-align: center;
-    }
 
-    .header {
-      background: #24577f;
-      color: white;
-      padding: 25px 15px;
-      margin: -20px -20px 20px;
-    }
+<style>
 
-    .header h1 {
-      margin: 0;
-      font-size: 30px;
-      font-weight: bold;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .header p {
-      margin: 8px 0 0;
-      font-size: 20px;
-    }
+body {
 
-    .container {
-      width: 100%;
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
-    }
+  margin: 0;
 
-    h2 {
-      color: #24577f;
-      margin: 5px 0 20px;
-      font-size: 26px;
-    }
+  padding: 20px;
 
-    #reader {
-      width: 100%;
-      margin: 20px auto;
-      overflow: hidden;
-      border-radius: 10px;
-    }
+  font-family: Arial, sans-serif;
 
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 10px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+  background: #f3f5f7;
 
-    #startBtn {
-      background: #1976d2;
-      color: white;
-    }
+  text-align: center;
 
-    #clearBtn {
-      background: #777;
-      color: white;
-    }
+}
 
-    button:active {
-      opacity: 0.8;
-    }
+.header {
 
-    #result {
-      margin-top: 20px;
-      padding: 20px;
-      background: #eee;
-      border-radius: 10px;
-      min-height: 100px;
-      font-size: 18px;
-      line-height: 1.5;
-      word-break: break-word;
-    }
+  background: #24577f;
 
-    .success {
-      color: #16803c;
-      font-weight: bold;
-    }
+  color: white;
 
-    .error {
-      color: #d93025;
-      font-weight: bold;
-    }
+  padding: 25px 15px;
 
-    .loading {
-      color: #b26a00;
-      font-weight: bold;
-    }
+  margin: -20px -20px 20px;
 
-    .qr-value {
-      margin-top: 10px;
-      padding: 12px;
-      background: white;
-      border-radius: 8px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #222;
-    }
+}
 
-  </style>
+.header h1 {
+
+  margin: 0;
+
+  font-size: 30px;
+
+}
+
+.header p {
+
+  margin: 8px 0 0;
+
+  font-size: 20px;
+
+}
+
+.container {
+
+  max-width: 500px;
+
+  margin: auto;
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 3px 15px rgba(0,0,0,0.12);
+
+}
+
+.section {
+
+  margin-bottom: 30px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #ddd;
+
+}
+
+input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  margin-top: 10px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+
+}
+
+button {
+
+  width: 100%;
+
+  padding: 15px;
+
+  margin-top: 10px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+}
+
+.primary {
+
+  background: #1976d2;
+
+  color: white;
+
+}
+
+.secondary {
+
+  background: #777;
+
+  color: white;
+
+}
+
+.green {
+
+  background: #16803c;
+
+  color: white;
+
+}
+
+#reader {
+
+  width: 100%;
+
+  margin: 20px auto;
+
+}
+
+#result {
+
+  margin-top: 20px;
+
+  padding: 20px;
+
+  background: #eee;
+
+  border-radius: 10px;
+
+  min-height: 80px;
+
+  font-size: 18px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+
+}
+
+.success {
+
+  color: #16803c;
+
+  font-weight: bold;
+
+}
+
+.error {
+
+  color: #d93025;
+
+  font-weight: bold;
+
+}
+
+.loading {
+
+  color: #b26a00;
+
+  font-weight: bold;
+
+}
+
+#qrDisplay {
+
+  margin-top: 20px;
+
+}
+
+#qrCode {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin: 20px 0;
+
+}
+
+.info {
+
+  background: #f5f5f5;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  margin-top: 10px;
+
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-  <div class="header">
 
-    <h1>GETIN SYSTEM</h1>
+<div class="header">
 
-    <p>CỔNG OUT</p>
+  <h1>GETIN SYSTEM</h1>
 
-  </div>
+  <p>QUẢN LÝ XE & CONTAINER</p>
 
-
-  <div class="container">
-
-    <h2>QUÉT QR XE OUT</h2>
+</div>
 
 
-    <!-- Camera -->
-    <div id="reader"></div>
+<div class="container">
 
 
-    <!-- Mở camera -->
-    <button
-      id="startBtn"
-      onclick="startCamera()"
-    >
-      📷 MỞ CAMERA
-    </button>
+<!-- =================================
+     TẠO QR
+================================= -->
+
+<div class="section">
+
+<h2>➕ TẠO QR XE</h2>
 
 
-    <!-- Xóa kết quả -->
-    <button
-      id="clearBtn"
-      onclick="clearResult()"
-    >
-      🗑️ XÓA KẾT QUẢ
-    </button>
+<input
+  id="soXe"
+  type="text"
+  placeholder="Nhập số xe"
+>
 
 
-    <!-- Kết quả -->
-    <div id="result">
-      Chưa quét mã
+<input
+  id="soContainer"
+  type="text"
+  placeholder="Nhập số container"
+>
+
+
+<button
+  class="green"
+  onclick="createQR()"
+>
+  ➕ TẠO MÃ QR
+</button>
+
+
+<div id="createResult"></div>
+
+
+<div
+  id="qrDisplay"
+  style="display:none;"
+>
+
+  <h3>QR CỦA XE</h3>
+
+  <div id="qrCode"></div>
+
+  <div class="info">
+
+    <div>
+      <strong>Mã QR:</strong>
+      <span id="createdQR"></span>
+    </div>
+
+    <div>
+      <strong>Số xe:</strong>
+      <span id="createdVehicle"></span>
+    </div>
+
+    <div>
+      <strong>Container:</strong>
+      <span id="createdContainer"></span>
     </div>
 
   </div>
 
 
+  <button
+    class="primary"
+    onclick="window.print()"
+  >
+    🖨️ IN QR
+  </button>
+
+</div>
+
+</div>
+
+
+<!-- =================================
+     QUÉT QR
+================================= -->
+
+<div class="section">
+
+<h2>📷 QUÉT QR</h2>
+
+
+<div id="reader"></div>
+
+
+<button
+  class="primary"
+  onclick="startCamera()"
+>
+  📷 MỞ CAMERA
+</button>
+
+
+<button
+  class="secondary"
+  onclick="clearResult()"
+>
+  🗑️ XÓA KẾT QUẢ
+</button>
+
+
+<div id="result">
+
+  Chưa quét mã
+
+</div>
+
+</div>
+
+
+</div>
+
+
 <script>
 
 
-/* =====================================================
-   GOOGLE APPS SCRIPT WEB APP
-   ===================================================== */
+/* =================================
+   APPS SCRIPT
+================================= */
 
 const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzyZsjQpb9eT02KnDrkS7EqAxmH2p8_Mu4JQll4u3wmNiKKdhmYfrAIIawAOtsn-yT7/exec";
+"https://script.google.com/macros/s/AKfycbzyZsjQpb9eT02KnDrkS7EqAxmH2p8_Mu4JQll4u3wmNiKKdhmYfrAIIawAOtsn-yT7/exec";
 
-
-/* =====================================================
-   BIẾN
-   ===================================================== */
 
 let scanner = null;
 
@@ -203,20 +385,209 @@ let cameraRunning = false;
 let lastQR = "";
 
 
-/* =====================================================
-   HIỂN THỊ KẾT QUẢ
-   ===================================================== */
+/* =================================
+   TẠO QR
+================================= */
 
-function showResult(html) {
+function createQR() {
 
-  document.getElementById("result").innerHTML = html;
+  const soXe =
+    document
+      .getElementById("soXe")
+      .value
+      .trim();
+
+  const soContainer =
+    document
+      .getElementById("soContainer")
+      .value
+      .trim();
+
+
+  if (!soXe) {
+
+    document.getElementById(
+      "createResult"
+    ).innerHTML =
+      "<span class='error'>" +
+      "❌ Vui lòng nhập số xe." +
+      "</span>";
+
+    return;
+
+  }
+
+
+  if (!soContainer) {
+
+    document.getElementById(
+      "createResult"
+    ).innerHTML =
+      "<span class='error'>" +
+      "❌ Vui lòng nhập số container." +
+      "</span>";
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "createResult"
+  ).innerHTML =
+    "<span class='loading'>" +
+    "⏳ Đang tạo QR..." +
+    "</span>";
+
+
+  const callbackName =
+    "createCallback_" +
+    Date.now();
+
+
+  window[callbackName] =
+    function(response) {
+
+
+      delete window[callbackName];
+
+
+      if (
+        response &&
+        response.success
+      ) {
+
+
+        document.getElementById(
+          "createResult"
+        ).innerHTML =
+          "<span class='success'>" +
+          "✅ Tạo QR thành công." +
+          "</span>";
+
+
+        document.getElementById(
+          "qrDisplay"
+        ).style.display =
+          "block";
+
+
+        document.getElementById(
+          "createdQR"
+        ).textContent =
+          response.qr;
+
+
+        document.getElementById(
+          "createdVehicle"
+        ).textContent =
+          response.soXe;
+
+
+        document.getElementById(
+          "createdContainer"
+        ).textContent =
+          response.soContainer;
+
+
+        const qrContainer =
+          document.getElementById(
+            "qrCode"
+          );
+
+
+        qrContainer.innerHTML =
+          "";
+
+
+        new QRCode(
+          qrContainer,
+          {
+
+            text:
+              response.qr,
+
+            width: 220,
+
+            height: 220
+
+          }
+        );
+
+
+      } else {
+
+
+        document.getElementById(
+          "createResult"
+        ).innerHTML =
+          "<span class='error'>" +
+          "❌ " +
+          (
+            response.message ||
+            "Không tạo được QR."
+          ) +
+          "</span>";
+
+      }
+
+    };
+
+
+  const url =
+
+    APPS_SCRIPT_URL +
+
+    "?action=create" +
+
+    "&soXe=" +
+    encodeURIComponent(soXe) +
+
+    "&soContainer=" +
+    encodeURIComponent(
+      soContainer
+    ) +
+
+    "&callback=" +
+    encodeURIComponent(
+      callbackName
+    );
+
+
+  const script =
+    document.createElement(
+      "script"
+    );
+
+
+  script.src = url;
+
+
+  script.onerror =
+    function() {
+
+      document.getElementById(
+        "createResult"
+      ).innerHTML =
+        "<span class='error'>" +
+        "❌ Không kết nối được Apps Script." +
+        "</span>";
+
+      delete window[callbackName];
+
+    };
+
+
+  document.body.appendChild(
+    script
+  );
 
 }
 
 
-/* =====================================================
+/* =================================
    MỞ CAMERA
-   ===================================================== */
+================================= */
 
 function startCamera() {
 
@@ -230,367 +601,275 @@ function startCamera() {
   lastQR = "";
 
 
-  showResult(
-    "<span class='loading'>" +
-    "📷 Đang mở camera..." +
-    "</span>"
-  );
+  document.getElementById(
+    "result"
+  ).innerHTML =
+    "📷 Đang mở camera...";
 
 
-  scanner = new Html5Qrcode("reader");
+  scanner =
+    new Html5Qrcode(
+      "reader"
+    );
 
 
   scanner.start(
 
     {
-      facingMode: "environment"
+      facingMode:
+        "environment"
     },
 
     {
       fps: 10,
 
       qrbox: {
-        width: 250,
-        height: 250
-      },
 
-      aspectRatio: 1.0
+        width: 250,
+
+        height: 250
+
+      }
 
     },
 
 
-    /* =================================================
-       KHI QUÉT ĐƯỢC QR
-       ================================================= */
-
-    function(decodedText, decodedResult) {
-
-      console.log(
-        "QR đã quét:",
-        decodedText
-      );
+    function(decodedText) {
 
 
-      /* -----------------------------------------------
-         Không xử lý cùng một mã liên tục
-         ----------------------------------------------- */
-
-      if (lastQR === decodedText) {
+      if (
+        lastQR === decodedText
+      ) {
 
         return;
 
       }
 
 
-      lastQR = decodedText;
+      lastQR =
+        decodedText;
 
 
-      /* -----------------------------------------------
-         HIỆN NGAY MÃ QR
-         ----------------------------------------------- */
-
-      showResult(
+      document.getElementById(
+        "result"
+      ).innerHTML =
 
         "<div class='success'>" +
-
         "✅ ĐÃ QUÉT QR" +
-
         "</div>" +
 
         "<br>" +
 
         "<strong>Mã QR:</strong>" +
 
-        "<div class='qr-value'>" +
-
+        "<div>" +
         decodedText +
-
         "</div>" +
 
         "<br>" +
 
         "<span class='loading'>" +
+        "⏳ Đang kiểm tra..." +
+        "</span>";
 
-        "⏳ Đang gửi lên Apps Script..." +
 
-        "</span>"
-
+      sendQR(
+        decodedText
       );
-
-
-      /* -----------------------------------------------
-         GỬI SANG APPS SCRIPT
-         ----------------------------------------------- */
-
-      sendQRToAppsScript(decodedText);
 
     },
 
 
-    /* =================================================
-       CHƯA TÌM THẤY QR
-       ================================================= */
-
     function(errorMessage) {
 
-      // Không hiển thị lỗi này.
-      // Đây là trạng thái bình thường khi camera
-      // đang tìm mã QR.
+      // Không hiển thị lỗi
+      // khi camera đang tìm QR.
 
     }
 
   )
 
+  .then(
+    function() {
 
-  /* ===================================================
-     CAMERA MỞ THÀNH CÔNG
-     =================================================== */
-
-  .then(function() {
-
-    cameraRunning = true;
+      cameraRunning =
+        true;
 
 
-    showResult(
+      document.getElementById(
+        "result"
+      ).innerHTML =
 
-      "📷 Camera đang hoạt động." +
+        "📷 Camera đang hoạt động." +
+        "<br><br>" +
+        "Đưa mã QR vào khung.";
 
-      "<br><br>" +
+    }
+  )
 
-      "Đưa mã QR vào khung để quét."
+  .catch(
+    function(error) {
 
-    );
+      document.getElementById(
+        "result"
+      ).innerHTML =
 
-  })
+        "<span class='error'>" +
+        "❌ Không mở được camera." +
+        "<br><br>" +
+        error +
+        "</span>";
 
-
-  /* ===================================================
-     CAMERA KHÔNG MỞ ĐƯỢC
-     =================================================== */
-
-  .catch(function(error) {
-
-    console.error(
-      "Camera error:",
-      error
-    );
-
-
-    showResult(
-
-      "<span class='error'>" +
-
-      "❌ KHÔNG THỂ MỞ CAMERA" +
-
-      "<br><br>" +
-
-      error +
-
-      "</span>"
-
-    );
-
-  });
+    }
+  );
 
 }
 
 
-/* =====================================================
-   GỬI QR SANG GOOGLE APPS SCRIPT
-   ===================================================== */
+/* =================================
+   GỬI QR
+================================= */
 
-function sendQRToAppsScript(qrCode) {
+function sendQR(qrCode) {
 
-
-  console.log(
-    "Bắt đầu gửi QR:",
-    qrCode
-  );
-
-
-  /* -----------------------------------------------
-     Tạo tên callback duy nhất
-     ----------------------------------------------- */
 
   const callbackName =
-    "getinCallback_" +
+    "scanCallback_" +
     Date.now();
 
 
-  /* -----------------------------------------------
-     Tạo callback
-     ----------------------------------------------- */
-
-  window[callbackName] = function(response) {
+  window[callbackName] =
+    function(response) {
 
 
-    console.log(
-      "Apps Script trả về:",
-      response
-    );
+      delete window[callbackName];
 
 
-    /* ---------------------------------------------
-       Apps Script trả về thành công
-       --------------------------------------------- */
-
-    if (
-      response &&
-      response.success === true
-    ) {
+      if (
+        response &&
+        response.success
+      ) {
 
 
-      showResult(
+        document.getElementById(
+          "result"
+        ).innerHTML =
 
-        "<div class='success'>" +
+          "<div class='success'>" +
+          "✅ QR HỢP LỆ" +
+          "</div>" +
 
-        "✅ ĐÃ QUÉT QR" +
+          "<br>" +
 
-        "</div>" +
+          "<strong>Số xe:</strong><br>" +
+          (
+            response.soXe ||
+            "Chưa có"
+          ) +
 
-        "<br>" +
+          "<br><br>" +
 
-        "<strong>Mã QR:</strong>" +
+          "<strong>Container:</strong><br>" +
+          (
+            response.soContainer ||
+            "Chưa có"
+          ) +
 
-        "<div class='qr-value'>" +
+          "<br><br>" +
 
-        response.qr +
+          "<strong>Trạng thái:</strong><br>" +
+          (
+            response.trangThai ||
+            ""
+          );
 
-        "</div>" +
-
-        "<br>" +
-
-        "<strong>" +
-
-        response.message +
-
-        "</strong>"
-
-      );
-
-    }
-
-
-    /* ---------------------------------------------
-       Apps Script trả về nhưng có lỗi
-       --------------------------------------------- */
-
-    else {
+      } else {
 
 
-      showResult(
+        document.getElementById(
+          "result"
+        ).innerHTML =
 
-        "<span class='error'>" +
+          "<span class='error'>" +
 
-        "❌ Apps Script trả về dữ liệu không hợp lệ." +
+          "❌ " +
 
-        "</span>"
+          (
+            response.message ||
+            "QR không hợp lệ."
+          ) +
 
-      );
+          "</span>";
 
-    }
+      }
 
+    };
 
-    /* ---------------------------------------------
-       Xóa callback
-       --------------------------------------------- */
-
-    delete window[callbackName];
-
-  };
-
-
-  /* -----------------------------------------------
-     Tạo URL gửi sang Apps Script
-     ----------------------------------------------- */
 
   const url =
 
     APPS_SCRIPT_URL +
 
     "?qr=" +
-
-    encodeURIComponent(qrCode) +
+    encodeURIComponent(
+      qrCode
+    ) +
 
     "&callback=" +
+    encodeURIComponent(
+      callbackName
+    );
 
-    encodeURIComponent(callbackName);
-
-
-  console.log(
-    "URL gửi Apps Script:",
-    url
-  );
-
-
-  /* -----------------------------------------------
-     Tạo script JSONP
-     ----------------------------------------------- */
 
   const script =
-    document.createElement("script");
-
-
-  script.src = url;
-
-
-  /* -----------------------------------------------
-     Nếu kết nối thất bại
-     ----------------------------------------------- */
-
-  script.onerror = function(error) {
-
-
-    console.error(
-      "Apps Script connection error:",
-      error
+    document.createElement(
+      "script"
     );
 
 
-    showResult(
-
-      "<span class='error'>" +
-
-      "❌ KHÔNG THỂ KẾT NỐI GOOGLE APPS SCRIPT" +
-
-      "<br><br>" +
-
-      "Kiểm tra URL hoặc quyền truy cập Web App."
-
-      + "</span>"
-
-    );
+  script.src =
+    url;
 
 
-    delete window[callbackName];
+  script.onerror =
+    function() {
 
-  };
+      document.getElementById(
+        "result"
+      ).innerHTML =
+
+        "<span class='error'>" +
+
+        "❌ Không kết nối được Apps Script." +
+
+        "</span>";
+
+      delete window[callbackName];
+
+    };
 
 
-  /* -----------------------------------------------
-     Thêm script vào trang
-     ----------------------------------------------- */
-
-  document.body.appendChild(script);
+  document.body.appendChild(
+    script
+  );
 
 }
 
 
-/* =====================================================
+/* =================================
    XÓA KẾT QUẢ
-   ===================================================== */
+================================= */
 
 function clearResult() {
 
   lastQR = "";
 
-
-  showResult(
-    "Chưa quét mã"
-  );
+  document.getElementById(
+    "result"
+  ).innerHTML =
+    "Chưa quét mã";
 
 }
-
 
 </script>
 
